@@ -9,8 +9,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.04080305292422248 0.9982484218651898 -0.04283922403266954 1.5238001441430435
-  position -0.9962998440179286 1.0098667484131851 1.2207356953340294
+  orientation -0.05898804746352537 0.996132167037696 0.06512385161539641 1.4759065026884948
+  position -1.1113390558560168 1.004422424148055 3.9153794419864205
   follow "Thymio II"
   followType "Mounted Shot"
 }
@@ -32,31 +32,31 @@ Wall {
   size 0.025 0.6 0.1
 }
 Wall {
-  translation 0.586982 -0.484433 1.07248e-13
+  translation 0.570985 -0.490054 8.70421e-14
   rotation 0 0 1 1.5707963267948968
   name "wall(6)"
-  size 0.025 0.2 0.1
+  size 0.025 0.22 0.1
 }
 Wall {
-  translation 0.486962 -0.752915 1.07248e-13
+  translation 0.4567 -0.7514 1.07248e-13
   rotation 0 0 1 1.5707963267948968
   name "wall(9)"
-  size 0.025 0.4 0.1
+  size 0.025 0.45 0.1
 }
 Wall {
-  translation -0.470657 0.988054 1.09024e-13
+  translation -0.499001 0.988213 1.09024e-13
   rotation 0 0 1 1.5707963267948968
   name "wall(3)"
-  size 0.025 1.55 0.1
+  size 0.025 1.5 0.1
 }
 Wall {
-  translation 0.0118645 1.15737 1.05027e-13
+  translation 0.0145281 1.18977 1.05027e-13
   rotation 0 0 1 1.5707963267948968
   name "wall(2)"
   size 0.025 2.5 0.1
 }
 Wall {
-  translation 0.30011 0.126202 -8.88086e-15
+  translation 0.242417 0.128685 -8.88086e-15
   rotation 0 1 0 0
   name "wall(5)"
   size 0.025 1.75 0.1
@@ -68,16 +68,10 @@ Wall {
   size 0.025 0.25 0.1
 }
 Wall {
-  translation 0.30011 0.126202 -8.88086e-15
-  rotation 0 1 0 0
-  name "wall(8)"
-  size 0.025 0.25 0.1
-}
-Wall {
-  translation 0.499337 0.0741953 -7.54859e-15
+  translation 0.468171 -0.085544 -7.54859e-15
   rotation 0 1 0 0
   name "wall(7)"
-  size 0.025 1.1 0.1
+  size 0.025 0.8 0.1
 }
 Wall {
   translation 0.673546 0.250516 -7.54859e-15
@@ -86,14 +80,14 @@ Wall {
   size 0.025 1.48 0.1
 }
 Wall {
-  translation 1.25031 1.07034 -1.38999e-13
+  translation 1.25242 1.08353 -1.38999e-13
   rotation 0 1 0 0
   name "wall(14)"
-  size 0.025 0.2 0.1
+  size 0.025 0.22 0.1
 }
 Wall {
-  translation -1.24307 1.07192 -1.0214e-13
-  rotation 0 1 0 0
+  translation -1.24308 1.08809 -1.0214e-13
+  rotation 0 0 1 4.692820414042842e-06
   name "wall(15)"
-  size 0.025 0.2 0.1
+  size 0.025 0.22 0.1
 }

@@ -47,12 +47,12 @@ while robot.step(timeStep) != -1:
     leftMotor.setVelocity(velocity)
     rightMotor.setVelocity(velocity)
     # register black dot    
-    if groundRightSensor.getValue() < 100:
+    if groundRightSensor.getValue() < 200:
         count = count + 1
     # register wall and turn right
     if centralSensor.getValue() > 0 or outerLeftSensor.getValue() > 0:
         leftMotor.setVelocity(velocity)
         rightMotor.setVelocity(-velocity*2)
     # stop condition
-    if count == 89:
+    if count > 200:
         velocity = 0
