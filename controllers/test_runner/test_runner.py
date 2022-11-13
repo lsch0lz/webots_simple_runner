@@ -23,7 +23,6 @@ outerRightSensor = robot.getDevice("prox.horizontal.4")
 leftSensor = robot.getDevice("prox.horizontal.5")
 rightSensor = robot.getDevice("prox.horizontal.6")
 
-
 outerLeftSensor.enable(timeStep)
 centralLeftSensor.enable(timeStep)
 centralSensor.enable(timeStep)
@@ -45,108 +44,72 @@ rightMotor.setPosition(float('inf'))
 
 velocity = 0.7 * maxMotorVelocity
 
-isSackgasse = False
-isMiddleRight = True
-isMiddleLeft = True
-isEmptyLeft = False
-isLeft = False
-isTurning = False
-isEnd = False
-isStandardMaze = False
+# states of the robot
+is_middle_right = True
+is_middle_left = True
+is_empty_left = False
+is_left = False
+is_turning = False
+is_end = False
+is_standard_maze = False
+
+# counting variables
 count = 0
 count_black_dots = 0
-t0 = time.time()
 while robot.step(timeStep) != -1:
     # always drive forward
     leftMotor.setVelocity(velocity)
     rightMotor.setVelocity(velocity)
-    running_time = time.time() - t0
-    print(groundLeftSensor.getValue())
-    print(outerLeftSensor.getValue(), centralLeftSensor.getValue(), centralSensor.getValue(), centralRightSensor.getValue(), outerRightSensor.getValue())
-    if centralSensor.getValue() > 0 or outerLeftSensor.getValue() > 0 or centralLeftSensor.getValue() > 0:
-        isLeft = True
-    print("isLeft", isLeft)
-    print("Is Maze: ", isStandardMaze)
-   
-    if isLeft == True and isTurning == False:        
-        leftMotor.setVelocity(velocity)
-        rightMotor.setVelocity(-velocity*2)
-        isLeft = False
 
+    # condition for left wall
+    if centralSensor.getValue() > 0 or outerLeftSensor.getValue() > 0 or centralLeftSensor.getValue() > 0:
+        is_left = True
+
+    # action for left wall
+    if is_left and not is_turning:
+        leftMotor.setVelocity(velocity)
+        rightMotor.setVelocity(-velocity * 2)
+        is_left = False
+    # action for right wall
     elif outerRightSensor.getValue() > 3100:
-        print("RIGHT")
-        leftMotor.setVelocity(-velocity*2)
+        leftMotor.setVelocity(-velocity * 2)
         rightMotor.setVelocity(velocity)
-    
+
+    # detect the type of maze
     if groundLeftSensor.getValue() < 200:
-        isStandardMaze = True
-    
+        is_standard_maze = True
+
+    # look for open paths on the left
     if outerLeftSensor.getValue() == 0 and centralLeftSensor.getValue() == 0 and centralSensor.getValue() == 0:
         count += 1
 
+    # condition to turn left, if there's an open path
     if count > 45:
-        isTurning = True
-    
-    print("isTurning", isTurning)
+        is_turning = True
 
-    if isTurning == True:
-        leftMotor.setVelocity(-velocity*2)
+    # action for turning into open path
+    if is_turning:
+        leftMotor.setVelocity(-velocity * 2)
         rightMotor.setVelocity(velocity)
+        # drive forward if there is something on the left
         if outerLeftSensor.getValue() > 0 and centralLeftSensor.getValue() == 0 and centralSensor.getValue() == 0 and centralRightSensor.getValue() == 0 and outerRightSensor.getValue() == 0:
-            isTurning = False
+            is_turning = False
             count = 0
-    
-    if isStandardMaze == True and groundRightSensor.getValue() < 200:
+
+    # action for standard maze --> Dots are Black not Brown
+    if is_standard_maze and groundRightSensor.getValue() < 200:
         count_black_dots += 1
-        
+
+    # condition for stopping in standard maze
     if count_black_dots > 239:
-        isEnd = True
-    
+        is_end = True
+
+    # condition for stopping in own maze
     if groundLeftSensor.getValue() < 500 and groundRightSensor.getValue() < 500 and centralSensor.getValue() > 0:
-        isEnd = True
-    
-    if isEnd == True:
+        is_end = True
+
+    # action for stopping
+    if is_end:
         leftMotor.setVelocity(0)
         rightMotor.setVelocity(0)
     print(count_black_dots)
-
-    """
-    if centralLeftSensor.getValue() > 1000 and outerLeftSensor.getValue() > 0:
-        print("SACKGASSE")
-        isSackgasse = True
-
-    if isSackgasse == True:
-        leftMotor.setVelocity(velocity)
-        rightMotor.setVelocity(-velocity*2)
-        isSackgasse = False
-    # turn left if to narrow to right wall
-    if outerRightSensor.getValue() > 2500 and isSackgasse == False:
-        print("RECHTS FAHREN")
-        isMiddleRight = False
-    
-    if isMiddleRight == False:
-        leftMotor.setVelocity(velocity)
-        rightMotor.setVelocity(velocity*2)
-        isMiddleRight = True
-    
-    if outerLeftSensor.getValue() > 4000 and isEmptyLeft == False:
-        print("ZU NAH LINKS", isEmptyLeft)
-        leftMotor.setVelocity(velocity)
-        rightMotor.setVelocity(-velocity*2)
-        continue
-    # turn for Sackgasse
-    
-
-    # turn left if wall ends
-    if outerLeftSensor.getValue() == 0 and centralLeftSensor.getValue() == 0:
-        print("ABBIEGEN")
-        isEmptyLeft = True
-    
-    if isEmptyLeft == True:
-        leftMotor.setVelocity(-velocity/2)
-        rightMotor.setVelocity(velocity*2)
-
-    if outerLeftSensor.getValue() > 0 or centralLeftSensor.getValue() > 0:
-        isEmptyLeft = False
-    
-    """
